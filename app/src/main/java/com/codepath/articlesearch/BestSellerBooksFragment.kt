@@ -1,5 +1,6 @@
 package com.codepath.articlesearch
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,7 +41,15 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
         val progressBar = view.findViewById<View>(R.id.progress) as ContentLoadingProgressBar
         val recyclerView = view.findViewById<View>(R.id.list) as RecyclerView
         val context = view.context
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
+
+        // Determine the orientation and set the span count
+        val spanCount = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            1 // Single column in landscape mode
+        } else {
+            2 // Two columns in portrait mode
+        }
+
+        recyclerView.layoutManager = GridLayoutManager(context, spanCount)
         updateAdapter(progressBar, recyclerView)
         return view
     }
